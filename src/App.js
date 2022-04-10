@@ -5,7 +5,7 @@ import {GoogleAuthProvider, getAuth, signOut, signInWithPopup} from 'firebase/au
 
 import {useAuthState} from "react-firebase-hooks/auth";
 import {useCollectionData} from "react-firebase-hooks/firestore";
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import env from "react-dotenv";
 import {collection, query, limit, orderBy, addDoc, serverTimestamp} from "firebase/firestore";
 
@@ -30,9 +30,15 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                {user ? <ChatRoom/> : <SignIn/>}
+            <header>
+                <h1>⚛️🔥💬</h1>
+                <SignOut/>
             </header>
+
+            <section>
+                {user ? <ChatRoom/> : <SignIn/>}
+            </section>
+
         </div>
     );
 }
@@ -44,13 +50,13 @@ function SignIn() {
     }
 
     return (
-        <button onClick={signInWithGoogle}>Sign in with Google</button>
+        <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
     );
 }
 
 function SignOut() {
     return auth.currentUser && (
-        <button onClick={() => signOut(auth)}>Sign Out</button>
+        <button className={'sign-out'} onClick={() => signOut(auth)}>Sign Out</button>
     )
 }
 
@@ -60,10 +66,11 @@ function ChatRoom() {
     const [messages] = useCollectionData(q, {idField: 'id'});
 
     const [formData, setFormData] = useState('');
+    const dummy = useRef();
 
-    const sendMessage = async(e) => {
+    const sendMessage = async (e) => {
         e.preventDefault();
-        const {uid, photoURL } = auth.currentUser;
+        const {uid, photoURL} = auth.currentUser;
 
         await addDoc(messagesRef, {
             text: formData,
@@ -72,17 +79,23 @@ function ChatRoom() {
             photoURL
         })
         setFormData('');
+        dummy.current.scrollIntoView({behavior: 'smooth'});
     }
 
     return (
         <>
-            <div>
+            <main>
                 {messages && messages.map((message, index) => (<ChatMessage key={index} message={message}/>))}
-            </div>
+                <div ref={dummy}></div>
+            </main>
 
             <form onSubmit={sendMessage}>
-                <input value={formData} onChange={(e) => setFormData(e.target.value)}/>
-                <button type={'submit'}>Send</button>
+                <input
+                    value={formData}
+                    onChange={(e) => setFormData(e.target.value)}
+                    placeholder="say something nice"
+                />
+                <button type="submit" disabled={!formData}>🕊️</button>
             </form>
         </>
     )

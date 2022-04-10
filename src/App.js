@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {initializeApp} from "firebase/app";
 import {getFirestore} from "firebase/firestore";
@@ -8,6 +7,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 import React from "react";
 import env from "react-dotenv";
+import {collection, query, limit, orderBy, getDocs} from "firebase/firestore";
 
 const config = {
     apiKey: env.apiKey,
@@ -27,7 +27,6 @@ const provider = new GoogleAuthProvider()
 function App() {
 
     const [user] = useAuthState(auth);
-    console.log(config)
 
     return (
         <div className="App">
@@ -56,14 +55,15 @@ function SignOut() {
 }
 
 function ChatRoom() {
-    const messagesRef = firestore.collection('messages');
-    const query = messagesRef.orderBy('createdAt').limit(25);
+    const messagesRef = collection(firestore, 'messages');
+    const q = query(messagesRef, orderBy("createdAt"), limit(25));
 
-    const [messages] = useCollectionData(query, {idField: 'id'});
+    const [messages] = useCollectionData(q, {idField: 'id'});
+    console.log(messages)
     return (
         <>
             <div>
-                {messages && messages.map(message => <ChatMessage key={message.id} message={message}/>)}
+                {messages && messages.map((message, index) => (<ChatMessage key={index} message={message}/>))}
             </div>
         </>
     )

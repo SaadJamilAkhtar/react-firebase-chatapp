@@ -31,7 +31,7 @@ function App() {
     return (
         <div className="App">
             <header>
-                <h1>⚛️🔥💬</h1>
+                <h1>React Firebase Chat</h1>
                 <SignOut/>
             </header>
 
@@ -106,7 +106,7 @@ function ChatMessage(props) {
     const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
     return (
         <div className={`message ${messageClass}`}>
-            <img src={photoURL}/>
+            <img src={photoURL? photoURL: './avatar.png'}/>
             <p>{text}</p>
         </div>
     )

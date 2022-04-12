@@ -152,3 +152,12 @@ img {
   border-radius: 50%;
   margin: 2px 5px;
 }
+
+@media (max-width: 728px) {
+  .App{
+    width: 90%;
+  }
+  .App header{
+    width: 90%;
+  }
+}

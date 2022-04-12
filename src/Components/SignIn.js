@@ -11,7 +11,14 @@ function SignIn() {
     }
 
     return (
-        <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
+        <button className="sign-in" onClick={signInWithGoogle}>
+            <div className="img">
+                <img src="./google.png" alt=""/>
+            </div>
+            <div className={'sign-in-text'}>
+                Sign in with Google
+            </div>
+        </button>
     );
 }
 

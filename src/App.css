@@ -126,16 +126,22 @@ button:disabled {
   padding: 1.25rem;
   height: 100%;
   border-radius: 0rem 2rem 2rem 0rem;
-  border-left: 1px solid black;
+
 }
 .sign-in .img{
   padding: 0.5rem 0.25rem 0.5rem 0.5rem;
+  border-right: 1px solid black;
 
 }
-.sign-in-text:hover{
+
+.sign-in:hover .sign-in-text{
   color: white;
   background: dodgerblue;
-  border-left: none;
+
+}
+
+.sign-in:hover .img{
+  border-right: none;
 }
 
 

@@ -1,11 +1,11 @@
 import './App.css';
-import {GoogleAuthProvider, getAuth, signOut, signInWithPopup} from 'firebase/auth';
 import {useAuthState} from "react-firebase-hooks/auth";
-import React, {useRef, useState} from "react";
-import {auth, firestore} from "./config/config";
+import React from "react";
+import {auth} from "./config/config";
 import ChatRoom from "./Components/ChatRoom";
+import SignIn from "./Components/SignIn";
+import SignOut from "./Components/SignOut";
 
-const provider = new GoogleAuthProvider()
 
 function App() {
 
@@ -25,25 +25,6 @@ function App() {
         </div>
     );
 }
-
-function SignIn() {
-
-    const signInWithGoogle = () => {
-        signInWithPopup(auth, provider).then(userDetails => console.log(userDetails));
-    }
-
-    return (
-        <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
-    );
-}
-
-function SignOut() {
-    return auth.currentUser && (
-        <button className={'sign-out'} onClick={() => signOut(auth)}>Sign Out</button>
-    )
-}
-
-
 
 
 export default App;

@@ -8,20 +8,8 @@ import {useCollectionData} from "react-firebase-hooks/firestore";
 import React, {useRef, useState} from "react";
 import env from "react-dotenv";
 import {collection, query, limit, orderBy, addDoc, serverTimestamp} from "firebase/firestore";
+import {auth, firestore} from "./config/config";
 
-const config = {
-    apiKey: env.apiKey,
-    authDomain: env.authDomain,
-    projectId: env.projectId,
-    storageBucket: env.storageBucket,
-    messagingSenderId: env.messagingSenderId,
-    appId: env.appId
-}
-const app = initializeApp(config)
-
-
-const auth = getAuth(app);
-const firestore = getFirestore(app);
 const provider = new GoogleAuthProvider()
 
 function App() {
@@ -106,7 +94,7 @@ function ChatMessage(props) {
     const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
     return (
         <div className={`message ${messageClass}`}>
-            <img src={photoURL? photoURL: './avatar.png'}/>
+            <img src={photoURL ? photoURL : './avatar.png'}/>
             <p>{text}</p>
         </div>
     )
